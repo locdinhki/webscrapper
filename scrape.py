@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 
 def scrape_site():
     source_file_path = './source.txt'
-    download_folder_path = './download/'
+    download_folder_path = 'Z:/Ebook/00000_Download/'
 
     with open(source_file_path, 'r') as f:
         sources = f.readlines()
@@ -21,6 +21,7 @@ def scrape_site():
             continue
         title = line.split("|", 1)[0]
         URL = line.split("|", 1)[1]
+        chapterNumber = re.search(r'\d+', URL).group()
 
         page = requests.get(URL)
         soup = BeautifulSoup(page.content, 'html.parser')
@@ -30,7 +31,7 @@ def scrape_site():
         job_elem = soup.find('div', class_='entry-content')
         content_text = []
         try:
-            content_text = job_elem.text.strip().split("\n")
+            content_text = job_elem.text.replace("Editor","\nEditor").strip().split("\n")
         except:
             print("Can't find text")
             # Next index
@@ -44,7 +45,8 @@ def scrape_site():
 
         if len(new_content_text) > 0:
             
-            chapter_title = new_content_text[0].replace('?', ' ').replace('!', ' ').strip()
+            chapter_number = "Chapter " + chapterNumber
+            chapter_title = chapter_number + " - " + new_content_text[0].replace('?', ' ').replace('!', ' ').replace(':', ' ').strip()
 
             # Set current full title
             volume_title = ""

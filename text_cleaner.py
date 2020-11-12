@@ -1,4 +1,4 @@
-search_texts = ["<-Prev","|TOC|","on Twitter","Table of Content","Like Loading..."]
+search_texts = ["<-Prev","|TOC|","on Twitter","Table of Content","Like Loading...","<– Prev"]
 def clean(x):
     dirty_texts = []
     i = 0
